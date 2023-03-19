@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6e0cfab2ebad4b56b8ec1898accd64bd" Name="Diagram1">
+        <EntityTypeShape EntityType="CompagnieProdottiModel.CategoriaMerceologica" Width="1.5" PointX="5.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompagnieProdottiModel.Compagnia" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompagnieProdottiModel.Indirizzo" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompagnieProdottiModel.MezzoContatto" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <AssociationConnector Association="CompagnieProdottiModel.FK__Indirizzo__IdCom__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="CompagnieProdottiModel.FK__MezzoCont__IdCom__4D94879B" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CompagnieProdottiModel.Prodotto" Width="1.5" PointX="8" PointY="1.625" />
+        <AssociationConnector Association="CompagnieProdottiModel.FK__Prodotto__Catego__5BE2A6F2" />
+        <AssociationConnector Association="CompagnieProdottiModel.FK__Prodotto__IdComp__5CD6CB2B" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

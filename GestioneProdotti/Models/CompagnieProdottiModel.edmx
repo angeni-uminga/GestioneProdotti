@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CompagnieProdottiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CategoriaMerceologica">
+          <Key>
+            <PropertyRef Name="Codice" />
+          </Key>
+          <Property Name="Codice" Type="char" MaxLength="5" Nullable="false" />
+          <Property Name="Descrizione" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Compagnia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Indirizzo">
+          <Key>
+            <PropertyRef Name="IdCompagnia" />
+          </Key>
+          <Property Name="IdCompagnia" Type="int" Nullable="false" />
+          <Property Name="Indirizzo" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MezzoContatto">
+          <Key>
+            <PropertyRef Name="IdCompagnia" />
+          </Key>
+          <Property Name="IdCompagnia" Type="int" Nullable="false" />
+          <Property Name="TipoContatto" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contatto" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errori trovati durante la generazione:
+avviso 6002: Nessuna chiave primaria definita per la tabella/visualizzazione 'C:\USERS\ANGEN\SOURCE\REPOS\GESTIONEPRODOTTI\GESTIONEPRODOTTI\APP_DATA\COMPAGNIEPRODOTTI.MDF.dbo.Prodotto'. La chiave è stata dedotta e la definizione è stata creata come tabella/visualizzazione di sola lettura.-->
+        <EntityType Name="Prodotto">
+          <Key>
+            <PropertyRef Name="IdCompagnia" />
+          </Key>
+          <Property Name="IdCompagnia" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="50" />
+          <Property Name="CategoriaMerceologica" Type="char" MaxLength="5" />
+        </EntityType>
+        <Association Name="FK__Indirizzo__IdCom__4AB81AF0">
+          <End Role="Compagnia" Type="Self.Compagnia" Multiplicity="1" />
+          <End Role="Indirizzo" Type="Self.Indirizzo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Compagnia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Indirizzo">
+              <PropertyRef Name="IdCompagnia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MezzoCont__IdCom__4D94879B">
+          <End Role="Compagnia" Type="Self.Compagnia" Multiplicity="1" />
+          <End Role="MezzoContatto" Type="Self.MezzoContatto" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Compagnia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MezzoContatto">
+              <PropertyRef Name="IdCompagnia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Prodotto__Catego__5BE2A6F2">
+          <End Role="CategoriaMerceologica" Type="Self.CategoriaMerceologica" Multiplicity="0..1" />
+          <End Role="Prodotto" Type="Self.Prodotto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaMerceologica">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="Prodotto">
+              <PropertyRef Name="CategoriaMerceologica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Prodotto__IdComp__5CD6CB2B">
+          <End Role="Compagnia" Type="Self.Compagnia" Multiplicity="1" />
+          <End Role="Prodotto" Type="Self.Prodotto" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Compagnia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Prodotto">
+              <PropertyRef Name="IdCompagnia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CompagnieProdottiModelStoreContainer">
+          <EntitySet Name="CategoriaMerceologica" EntityType="Self.CategoriaMerceologica" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Compagnia" EntityType="Self.Compagnia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Indirizzo" EntityType="Self.Indirizzo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MezzoContatto" EntityType="Self.MezzoContatto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Prodotto" EntityType="Self.Prodotto" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Prodotto].[IdCompagnia] AS [IdCompagnia], 
+    [Prodotto].[Nome] AS [Nome], 
+    [Prodotto].[CategoriaMerceologica] AS [CategoriaMerceologica]
+    FROM [dbo].[Prodotto] AS [Prodotto]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Indirizzo__IdCom__4AB81AF0" Association="Self.FK__Indirizzo__IdCom__4AB81AF0">
+            <End Role="Compagnia" EntitySet="Compagnia" />
+            <End Role="Indirizzo" EntitySet="Indirizzo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MezzoCont__IdCom__4D94879B" Association="Self.FK__MezzoCont__IdCom__4D94879B">
+            <End Role="Compagnia" EntitySet="Compagnia" />
+            <End Role="MezzoContatto" EntitySet="MezzoContatto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Prodotto__Catego__5BE2A6F2" Association="Self.FK__Prodotto__Catego__5BE2A6F2">
+            <End Role="CategoriaMerceologica" EntitySet="CategoriaMerceologica" />
+            <End Role="Prodotto" EntitySet="Prodotto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Prodotto__IdComp__5CD6CB2B" Association="Self.FK__Prodotto__IdComp__5CD6CB2B">
+            <End Role="Compagnia" EntitySet="Compagnia" />
+            <End Role="Prodotto" EntitySet="Prodotto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CompagnieProdottiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CategoriaMerceologica">
+          <Key>
+            <PropertyRef Name="Codice" />
+          </Key>
+          <Property Name="Codice" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Descrizione" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Prodotto" Relationship="CompagnieProdottiModel.FK__Prodotto__Catego__5BE2A6F2" FromRole="CategoriaMerceologica" ToRole="Prodotto" />
+        </EntityType>
+        <EntityType Name="Compagnia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Indirizzo" Relationship="Self.FK__Indirizzo__IdCom__4AB81AF0" FromRole="Compagnia" ToRole="Indirizzo" />
+          <NavigationProperty Name="MezzoContatto" Relationship="Self.FK__MezzoCont__IdCom__4D94879B" FromRole="Compagnia" ToRole="MezzoContatto" />
+          <NavigationProperty Name="Prodotto" Relationship="CompagnieProdottiModel.FK__Prodotto__IdComp__5CD6CB2B" FromRole="Compagnia" ToRole="Prodotto" />
+        </EntityType>
+        <EntityType Name="Indirizzo">
+          <Key>
+            <PropertyRef Name="IdCompagnia" />
+          </Key>
+          <Property Name="IdCompagnia" Type="Int32" Nullable="false" />
+          <Property Name="Indirizzo1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Compagnia" Relationship="Self.FK__Indirizzo__IdCom__4AB81AF0" FromRole="Indirizzo" ToRole="Compagnia" />
+        </EntityType>
+        <EntityType Name="MezzoContatto">
+          <Key>
+            <PropertyRef Name="IdCompagnia" />
+          </Key>
+          <Property Name="IdCompagnia" Type="Int32" Nullable="false" />
+          <Property Name="TipoContatto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Contatto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Compagnia" Relationship="Self.FK__MezzoCont__IdCom__4D94879B" FromRole="MezzoContatto" ToRole="Compagnia" />
+        </EntityType>
+        <Association Name="FK__Indirizzo__IdCom__4AB81AF0">
+          <End Role="Compagnia" Type="Self.Compagnia" Multiplicity="1" />
+          <End Role="Indirizzo" Type="Self.Indirizzo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Compagnia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Indirizzo">
+              <PropertyRef Name="IdCompagnia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MezzoCont__IdCom__4D94879B">
+          <End Role="Compagnia" Type="Self.Compagnia" Multiplicity="1" />
+          <End Role="MezzoContatto" Type="Self.MezzoContatto" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Compagnia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MezzoContatto">
+              <PropertyRef Name="IdCompagnia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CompagnieProdottiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CategoriaMerceologica" EntityType="Self.CategoriaMerceologica" />
+          <EntitySet Name="Compagnia" EntityType="Self.Compagnia" />
+          <EntitySet Name="Indirizzo" EntityType="Self.Indirizzo" />
+          <EntitySet Name="MezzoContatto" EntityType="Self.MezzoContatto" />
+          <AssociationSet Name="FK__Indirizzo__IdCom__4AB81AF0" Association="Self.FK__Indirizzo__IdCom__4AB81AF0">
+            <End Role="Compagnia" EntitySet="Compagnia" />
+            <End Role="Indirizzo" EntitySet="Indirizzo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MezzoCont__IdCom__4D94879B" Association="Self.FK__MezzoCont__IdCom__4D94879B">
+            <End Role="Compagnia" EntitySet="Compagnia" />
+            <End Role="MezzoContatto" EntitySet="MezzoContatto" />
+          </AssociationSet>
+          <EntitySet Name="Prodotto" EntityType="CompagnieProdottiModel.Prodotto" />
+          <AssociationSet Name="FK__Prodotto__Catego__5BE2A6F2" Association="CompagnieProdottiModel.FK__Prodotto__Catego__5BE2A6F2">
+            <End Role="CategoriaMerceologica" EntitySet="CategoriaMerceologica" />
+            <End Role="Prodotto" EntitySet="Prodotto" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Prodotto__IdComp__5CD6CB2B" Association="CompagnieProdottiModel.FK__Prodotto__IdComp__5CD6CB2B">
+            <End Role="Compagnia" EntitySet="Compagnia" />
+            <End Role="Prodotto" EntitySet="Prodotto" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Prodotto">
+          <Key>
+            <PropertyRef Name="IdCompagnia" />
+          </Key>
+          <Property Name="IdCompagnia" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CategoriaMerceologica" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="CategoriaMerceologica1" Relationship="CompagnieProdottiModel.FK__Prodotto__Catego__5BE2A6F2" FromRole="Prodotto" ToRole="CategoriaMerceologica" />
+          <NavigationProperty Name="Compagnia" Relationship="CompagnieProdottiModel.FK__Prodotto__IdComp__5CD6CB2B" FromRole="Prodotto" ToRole="Compagnia" />
+        </EntityType>
+        <Association Name="FK__Prodotto__Catego__5BE2A6F2">
+          <End Type="CompagnieProdottiModel.CategoriaMerceologica" Role="CategoriaMerceologica" Multiplicity="0..1" />
+          <End Type="CompagnieProdottiModel.Prodotto" Role="Prodotto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoriaMerceologica">
+              <PropertyRef Name="Codice" />
+            </Principal>
+            <Dependent Role="Prodotto">
+              <PropertyRef Name="CategoriaMerceologica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Prodotto__IdComp__5CD6CB2B">
+          <End Type="CompagnieProdottiModel.Compagnia" Role="Compagnia" Multiplicity="1" />
+          <End Type="CompagnieProdottiModel.Prodotto" Role="Prodotto" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Compagnia">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Prodotto">
+              <PropertyRef Name="IdCompagnia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CompagnieProdottiModelStoreContainer" CdmEntityContainer="CompagnieProdottiEntities">
+          <EntitySetMapping Name="CategoriaMerceologica">
+            <EntityTypeMapping TypeName="CompagnieProdottiModel.CategoriaMerceologica">
+              <MappingFragment StoreEntitySet="CategoriaMerceologica">
+                <ScalarProperty Name="Codice" ColumnName="Codice" />
+                <ScalarProperty Name="Descrizione" ColumnName="Descrizione" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Compagnia">
+            <EntityTypeMapping TypeName="CompagnieProdottiModel.Compagnia">
+              <MappingFragment StoreEntitySet="Compagnia">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Indirizzo">
+            <EntityTypeMapping TypeName="CompagnieProdottiModel.Indirizzo">
+              <MappingFragment StoreEntitySet="Indirizzo">
+                <ScalarProperty Name="IdCompagnia" ColumnName="IdCompagnia" />
+                <ScalarProperty Name="Indirizzo1" ColumnName="Indirizzo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MezzoContatto">
+            <EntityTypeMapping TypeName="CompagnieProdottiModel.MezzoContatto">
+              <MappingFragment StoreEntitySet="MezzoContatto">
+                <ScalarProperty Name="IdCompagnia" ColumnName="IdCompagnia" />
+                <ScalarProperty Name="TipoContatto" ColumnName="TipoContatto" />
+                <ScalarProperty Name="Contatto" ColumnName="Contatto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Prodotto">
+            <EntityTypeMapping TypeName="CompagnieProdottiModel.Prodotto">
+              <MappingFragment StoreEntitySet="Prodotto">
+                <ScalarProperty Name="CategoriaMerceologica" ColumnName="CategoriaMerceologica" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="IdCompagnia" ColumnName="IdCompagnia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Nessuno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
